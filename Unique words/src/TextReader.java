@@ -8,11 +8,14 @@ class TextReader extends Separate{
         ArrayList<String> strB = new ArrayList<>();
         Hashtable<String, Integer> map = new Hashtable<String, Integer>();
         Separate separate = new Separate();
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter the file direction: ");
+        String sc = scan.next();
 
         String a;
         try {
             BufferedReader write = new BufferedReader(
-                    new FileReader("C:\\Users\\Aslid\\OneDrive\\Documents\\Previouce\\src\\file3.html"));
+                    new FileReader(sc));
 
             while((a = write.readLine()) != null){
 
