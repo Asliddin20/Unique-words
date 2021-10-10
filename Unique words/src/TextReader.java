@@ -72,11 +72,9 @@ class TextReader extends Separate{
                     break;
                 }
                 st.append(sd.charAt(ii));
-
             }
             System.out.println(st + "-" + inn);
             foo.put(st.toString(), inn);
-
         }
 
 //todo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Connecting to DATABASE AND STORE DATA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -84,7 +82,7 @@ class TextReader extends Separate{
 
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/text_output", "root", "MySQL/me1");
             PreparedStatement prepare = null;
-            //TODO DELETE ALL DATA...............
+            // DELETE ALL DATA...............
             /*prepare = connection.prepareStatement("delete from txt_output text");
             prepare.execute();*/
             prepare = connection.prepareStatement("Insert into txt_output   (text, number) VALUES(?,?)");
@@ -96,11 +94,8 @@ class TextReader extends Separate{
             }
             prepare = connection.prepareStatement("Select * from txt_output");
             ResultSet rs = prepare.executeQuery();
-
-
-
-
-
+            
+            System.out.println("Data Stored Successfully!");
             prepare.close();
             connection.close();
 
