@@ -109,19 +109,5 @@ class TextReader extends Separate{
         }
     }
 
-    private static final String EMPLOYEE_TABLE = "create table MyEmployees3 ( "
-            + "   id INT PRIMARY KEY, firstName VARCHAR(20), lastName VARCHAR(20), "
-            + "   title VARCHAR(20), salary INT )";
-
-    public static Connection getConnection() throws Exception {
-        String driver = "org.gjt.mm.mysql.Driver";
-        String url = "jdbc:mysql://localhost/mydatabase";
-        String username = "root";
-        String password = "MySQL/me2";
-        Class.forName(driver);
-        Connection conn = DriverManager.getConnection(url, username, password);
-        return conn;
-    }
-
 
 }
