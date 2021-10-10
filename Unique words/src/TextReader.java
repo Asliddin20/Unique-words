@@ -57,46 +57,47 @@ class TextReader extends Separate{
             public int compare(Map.Entry<?, Integer> o1, Map.Entry<?, Integer> o2) {
                 return o1.getValue().compareTo(o2.getValue());
             }});
+        Hashtable<String, Integer> foo = new Hashtable<String, Integer>();
+        for( int ij=l.size()-1; ij>-1; ij--) {
+            StringBuilder st= new StringBuilder();
+            String sd = l.get(ij).toString();
+            int inn=0;
+            for(int ii=0; ii<sd.length(); ii++){
+                if(sd.charAt(ii)=='=') {
+                    StringBuilder it= new StringBuilder();
+                    for(int j=ii+1; j<sd.length(); j++){
+                        it.append(sd.charAt(j));
+                    }
+                    inn = Integer.parseInt(it.toString());
+                    break;
+                }
+                st.append(sd.charAt(ii));
 
+            }
+            System.out.println(st + "-" + inn);
+            foo.put(st.toString(), inn);
 
-//todo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Connecting to DATABASE AND STORE DATA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        }
+
+//todo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Connecting to DATABASE AND STORE DATA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         try{
+
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/text_output", "root", "MySQL/me1");
             PreparedStatement prepare = null;
             //TODO DELETE ALL DATA...............
             /*prepare = connection.prepareStatement("delete from txt_output text");
             prepare.execute();*/
-
             prepare = connection.prepareStatement("Insert into txt_output   (text, number) VALUES(?,?)");
-            for( int ij=l.size()-1; ij>-1; ij--) {
-                StringBuilder st= new StringBuilder();
-                String sd = l.get(ij).toString();
-                int inn=0;
-                for(int ii=0; ii<sd.length(); ii++){
-                    if(sd.charAt(ii)=='=') {
-                        StringBuilder it= new StringBuilder();
-                        for(int j=ii+1; j<sd.length(); j++){
-                            it.append(sd.charAt(j));
-                        }
-                        inn = Integer.parseInt(it.toString());
-                        break;
-                    }
-                    st.append(sd.charAt(ii));
-
-                }
-                prepare.setString(1, st.toString());
-                prepare.setInt(2,inn);
+            for( Map.Entry<String, Integer> x:foo.entrySet()){
+                prepare.setString(1, x.getKey());
+                prepare.setInt(2,x.getValue());
                 prepare.execute();
 
             }
             prepare = connection.prepareStatement("Select * from txt_output");
             ResultSet rs = prepare.executeQuery();
 
-            while(rs.next()){
-                String st = rs.getString("text");
-                int in = rs.getInt("number");
-                System.out.println(st + " - " + in);
-            }
+
 
 
 
@@ -104,8 +105,23 @@ class TextReader extends Separate{
             connection.close();
 
         }catch(Exception ex){
-
             ex.printStackTrace();
         }
     }
+
+    private static final String EMPLOYEE_TABLE = "create table MyEmployees3 ( "
+            + "   id INT PRIMARY KEY, firstName VARCHAR(20), lastName VARCHAR(20), "
+            + "   title VARCHAR(20), salary INT )";
+
+    public static Connection getConnection() throws Exception {
+        String driver = "org.gjt.mm.mysql.Driver";
+        String url = "jdbc:mysql://localhost/mydatabase";
+        String username = "root";
+        String password = "MySQL/me2";
+        Class.forName(driver);
+        Connection conn = DriverManager.getConnection(url, username, password);
+        return conn;
+    }
+
+
 }
